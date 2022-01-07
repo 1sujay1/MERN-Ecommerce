@@ -1,4 +1,4 @@
-.header{
+.header {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -6,20 +6,21 @@
     // align-items: center;
     margin-bottom: 25px;
 
-    .logo-container{
+    .logo-container {
         width: 70px;
         height: 100%;
         padding: 25px;
     }
 
-    .options{
+    .options {
         height: 100%;
         width: 50%;
         display: flex;
         justify-content: flex-end;
         align-items: center;
     }
-    .option{
+    .option {
         padding: 10px 15px;
+        cursor: pointer;
     }
 }
