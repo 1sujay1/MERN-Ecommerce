@@ -35,14 +35,13 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth) return;
 
     try {
-        const { displayName, email, uid } = userAuth;
         const userRef = await doc(firestore, "users", userAuth.uid)
         let docSnap = await getDoc(userRef);
 
         if (!docSnap.exists()) {
             console.log("No such document!");
 
-            const { displayName, email } = userAuth;
+            const { displayName, email, uid } = userAuth;
             const createdAt = new Date();
 
             await setDoc(userRef, {
