@@ -6,7 +6,6 @@ import { withRouter } from "../../utils/router.params";
 import CollectionItemComponent from "../../components/collection-item/collection-item.component";
 
 const CollectionPage = ({ collection }) => {
-    console.log("collection", collection);
     const { title, items } = collection;
     return (
         <div className="collection-page">

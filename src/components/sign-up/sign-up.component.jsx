@@ -24,7 +24,6 @@ class SignUp extends React.Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("this", this.state);
         const { displayName, email, password, confirmPassword } = this.state;
         if (password !== confirmPassword) {
             alert("Password donot match");
@@ -32,7 +31,7 @@ class SignUp extends React.Component {
         }
         try {
             const { user } = await createUserDateWithEmailAndPassword(email, password);
-            console.log("user", user);
+
             await createUserProfileDocument(user, { displayName })
 
             this.setState({
