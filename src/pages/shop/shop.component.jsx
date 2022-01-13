@@ -18,7 +18,7 @@ class ShopPage extends React.Component {
     }
     render() {
         return (
-            <div className="shop-page" >
+            <div className="shop-page">
                 <Routes>
                     <Route path='/' element={this.props.collections ? <CollectionOverview /> : <h1>Loading</h1>} />
                     <Route path=':collectionId' element={this.props.collections ? <CollectionPage /> : <h1>Loading</h1>} />
