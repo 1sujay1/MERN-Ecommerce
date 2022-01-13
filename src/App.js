@@ -28,7 +28,7 @@ class App extends React.Component {
           id: userRef.id,
           ...userRef.data()
         })
-      } else {
+        // addCollectionAndDoc      } else {
         setCurrentUser(null)
       }
 

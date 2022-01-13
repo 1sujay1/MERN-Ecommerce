@@ -1,8 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDoc, collection, doc, setDoc, addDoc, query, where } from "firebase/firestore";
+import { getFirestore, getDoc, collection, getDocs, doc, setDoc, addDoc, query, where, writeBatch } from "firebase/firestore";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword } from "firebase/auth";
+
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' })
@@ -32,6 +33,8 @@ export const signInWithGoogle = () => signInWithPopup(auth, provider);
 // export default firebase;
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
+
+    // console.log("querySnapshot", await getDocs(collection(firestore, "collections")));
     if (!userAuth) return;
 
     try {
@@ -57,6 +60,38 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     } catch (error) {
         console.log(error.message);
     }
+}
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const getRef = collection(firestore, collectionKey);
+    // const querySnapshot = await getDocs(getRef);
+
+    const batch = writeBatch(firestore)
+    objectsToAdd.forEach(obj => {
+        const newDocRef = doc(getRef);
+        // console.log("newDocRef", newDocRef.data());
+        batch.set(newDocRef, obj);
+    })
+    await batch.commit();
+}
+export const convertCollectionsSnapshotToMap = (collection) => {
+    const transformedCollection = collection.docs.map(doc => {
+        const { title, items } = doc.data()
+        return {
+            title,
+            items,
+            routeName: encodeURI(title).toLowerCase(),
+            id: doc.id
+        }
+    })
+    return transformedCollection.reduce((collectionArray, collection) => {
+        collectionArray[collection.title.toLowerCase()] = collection;
+        return collectionArray
+    }, {})
+}
+export const getCollectionsRef = async (collectionName) => {
+    const collectionRef = await collection(firestore, collectionName);
+    const docRef = await getDocs(collectionRef)
+    return docRef;
 }
 
 export const createUserDateWithEmailAndPassword = async (email, password) => {
