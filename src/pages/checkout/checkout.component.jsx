@@ -4,10 +4,11 @@ import { createStructuredSelector } from "reselect";
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 import StripeCheckoutButton from "../../components/stripe-button/stripe-button.component";
 import { selectCartItems, selectCartTotal } from "../../redux/cart/cart.selectors";
-
+import CustomButton from '../../components/custom-button/custom-button.component'
 import './checkout.style.scss';
+import { withRouter } from "../../utils/router.params";
 
-const Checkout = ({ cartItems, total }) => {
+const Checkout = ({ cartItems, total, navigate }) => {
     return (
         <div className="checkout-page">
             <div className="checkout-header">
@@ -38,7 +39,13 @@ const Checkout = ({ cartItems, total }) => {
                 <br />
                 4242 4242 4242 4242 - Exp: 01/20 - CVV: 123
             </div>
-            <StripeCheckoutButton price={total} />
+            {
+                total
+                    ? <StripeCheckoutButton price={total} />
+                    : <CustomButton onClick={() => navigate('/shop')} >Go to shop</CustomButton>
+
+            }
+
         </div>
     )
 }
@@ -46,4 +53,4 @@ const mapStateToProps = createStructuredSelector({
     cartItems: selectCartItems,
     total: selectCartTotal
 })
-export default connect(mapStateToProps)(Checkout);
+export default withRouter(connect(mapStateToProps)(Checkout));
