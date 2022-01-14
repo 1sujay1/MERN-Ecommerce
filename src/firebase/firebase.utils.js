@@ -5,8 +5,8 @@ import { getFirestore, getDoc, collection, getDocs, doc, setDoc, addDoc, query, 
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword } from "firebase/auth";
 
 
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' })
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' })
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,7 +29,7 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
 export const firestore = getFirestore();
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 // export default firebase;
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -43,16 +43,14 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
         if (!docSnap.exists()) {
             console.log("No such document!");
-
             const { displayName, email, uid } = userAuth;
             const createdAt = new Date();
 
             await setDoc(userRef, {
                 displayName, email, createdAt, ...additionalData
             });
-            return { id: uid, data: () => { return { displayName, email } } };
+            return { id: uid, data: () => { return { displayName, email, ...additionalData } } };
         } else {
-            // console.log("Document data:", docSnap);
             // console.log("Document data:", docSnap.data());
             return docSnap
 
@@ -73,8 +71,8 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     })
     await batch.commit();
 }
-export const convertCollectionsSnapshotToMap = (collection) => {
-    const transformedCollection = collection.docs.map(doc => {
+export const convertCollectionsSnapshotToMap = async (collection) => {
+    const transformedCollection = await collection.docs.map(doc => {
         const { title, items } = doc.data()
         return {
             title,
@@ -94,6 +92,17 @@ export const getCollectionsRef = async (collectionName) => {
     return docRef;
 }
 
-export const createUserDateWithEmailAndPassword = async (email, password) => {
-    return await createUserWithEmailAndPassword(auth, email, password)
+export const createUserWithEmail = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password)
 }
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(userAuth => {
+            unsubscribe();
+            resolve(userAuth)
+        }, reject)
+    })
+}
+// export const signOutUserAuth = () => {
+//     auth.signOut()
+// }

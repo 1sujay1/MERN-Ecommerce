@@ -5,38 +5,20 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUp from './components/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import React from 'react';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { createStructuredSelector } from 'reselect';
 import Checkout from './pages/checkout/checkout.component';
+import { checkUserSession } from './redux/user/user.actions';
+import Loader from './components/loader/loader.component';
 
 class App extends React.Component {
 
-  unsubscribeFromAuth = null;
-
   componentDidMount() {
-    const { setCurrentUser } = this.props;
-
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth)
-
-        setCurrentUser({
-          id: userRef.id,
-          ...userRef.data()
-        })
-        // addCollectionAndDoc      } else {
-        setCurrentUser(null)
-      }
-
-    })
+    const { checkUserSession } = this.props;
+    checkUserSession()
   }
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
+
 
   render() {
     return (
@@ -53,6 +35,7 @@ class App extends React.Component {
             }
           />
           <Route path='checkout' element={<Checkout />} />
+          <Route path='loader' element={<Loader />} />
         </Routes>
       </div>
     );
@@ -62,8 +45,8 @@ class App extends React.Component {
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 })
-
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);
