@@ -1,11 +1,15 @@
 import React from "react";
 import './categories.style.scss';
 import { selectCollection } from "../../redux/shop/shop.selectors";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { withRouter } from "../../utils/router.params";
 import CollectionItemComponent from "../../components/collection-item/collection-item.component";
+import { useParams } from "react-router-dom";
 
-const CollectionPage = ({ collection }) => {
+const CollectionPage = () => {
+
+    const { collectionId } = useParams();
+    const collection = useSelector(selectCollection(collectionId))
     const { title, items } = collection;
     return (
         <div className="collection-page">
@@ -18,9 +22,9 @@ const CollectionPage = ({ collection }) => {
         </div>
     )
 }
-const mapStateToProps = (state, { urlParams }) => {
-    return ({
-        collection: selectCollection(urlParams.collectionId)(state)
-    })
-}
-export default withRouter(connect(mapStateToProps)(CollectionPage));
+// const mapStateToProps = (state, { urlParams }) => {
+//     return ({
+//         collection: selectCollection(urlParams.collectionId)(state)
+//     })
+// }
+export default CollectionPage;
