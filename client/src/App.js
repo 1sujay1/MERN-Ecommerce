@@ -8,6 +8,7 @@ import SignInAndSignUp from './components/sign-in-and-sign-up/sign-in-and-sign-u
 
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from './redux/user/user.selectors';
+
 // import { createStructuredSelector } from 'reselect';
 import Checkout from './pages/checkout/checkout.component';
 import { checkUserSession } from './redux/user/user.actions';
