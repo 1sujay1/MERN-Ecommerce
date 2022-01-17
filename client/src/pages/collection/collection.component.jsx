@@ -1,8 +1,9 @@
 import React from "react";
 import './categories.style.scss';
 import { selectCollection } from "../../redux/shop/shop.selectors";
-import { connect, useSelector } from "react-redux";
-import { withRouter } from "../../utils/router.params";
+import { useSelector } from "react-redux";
+// import { connect, useSelector } from "react-redux";
+// import { withRouter } from "../../utils/router.params";
 import CollectionItemComponent from "../../components/collection-item/collection-item.component";
 import { useParams } from "react-router-dom";
 

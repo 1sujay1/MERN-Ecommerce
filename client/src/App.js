@@ -6,9 +6,9 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUp from './components/sign-in-and-sign-up/sign-in-and-sign-up.component';
 
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import { createStructuredSelector } from 'reselect';
+// import { createStructuredSelector } from 'reselect';
 import Checkout from './pages/checkout/checkout.component';
 import { checkUserSession } from './redux/user/user.actions';
 import Loader from './components/loader/loader.component';
