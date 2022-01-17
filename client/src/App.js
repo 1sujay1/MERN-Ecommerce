@@ -1,9 +1,12 @@
-import './App.css';
+// import './App.css';
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
+
+import { GlobalStyle } from './global.styles';
+
 import SignInAndSignUp from './components/sign-in-and-sign-up/sign-in-and-sign-up.component';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +26,7 @@ const App = () => {
 
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Routes>
         <Route path='/' element={<HomePage />} />

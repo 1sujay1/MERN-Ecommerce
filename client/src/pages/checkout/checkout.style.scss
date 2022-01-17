@@ -18,6 +18,9 @@
             text-transform: uppercase;
             &:last-child {
                 width: 8%;
+                @media screen and (max-width: 800px) {
+                    width: 10%;
+                }
             }
         }
     }
@@ -37,5 +40,8 @@
     }
     button {
         cursor: pointer;
+    }
+    @media screen and (max-width: 800px) {
+        width: 93%;
     }
 }
