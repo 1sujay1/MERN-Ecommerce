@@ -7,7 +7,7 @@ const app = express();
 
 if (process.env.NODE_ENV != 'production') require('dotenv').config();
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const stripe = require('stripe')('sk_test_51KGptrSJWXiAb9UtQmppq82tMBvW7KaGuvSRdldtX34kV0y6U44RNPmVFL052jJQba0gophD1G8OqRBEXQBTcWm000jsDIKsRF')
 
 const port = process.env.PORT || 5000;
 app.use(cors());
